@@ -170,7 +170,6 @@ Practice defining a few more routes in `app.py`.
 
 
 ```python
-# __SOLUTION__
 
 # Solution code:
 # For this to work it needs to be pasted into app.py
@@ -183,7 +182,6 @@ def welcome():
 
 
 ```python
-# __SOLUTION__
 
 # Solution code:
 # For this to work it needs to be pasted into app.py
