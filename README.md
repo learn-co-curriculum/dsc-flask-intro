@@ -75,7 +75,7 @@ export FLASK_ENV=development
 env FLASK_APP=app.py flask run
 ```
 
-This will produce an output that looks something like:
+This should produce an output that looks something like:
 
 ```
  * Serving Flask app 'app.py' (lazy loading)
@@ -87,9 +87,18 @@ This will produce an output that looks something like:
  * Debugger PIN: <PIN>
 ```
 
-Your server is now up and running!
+If this works, your server is now up and running!
 
-(If you get `Error: Could not import 'app'`, make sure that you are running the above code *from the root of this repository*.)
+#### Troubleshooting Running the Flask Application
+
+If you do not see an output like the one above, here are some things to investigate:
+
+* If you get `Error: Could not import 'app'`, make sure that you are running the above code *from the root of this repository*. `app.py` needs to be in the same directory where you are running the `flask run` command. Use `cd` until you are in the correct directory, then try again.
+* If you get an `OSError` such as `Address already in use` or `An attempt was made to access a socket in a way forbidden by its access permissions`, that means that there is another program already running on the default port (5000).
+  * If you think there is a chance that the program using port 5000 is another Flask app, but you don't know where that terminal window is, go through the instructions at the bottom of this page under "What If I Accidentally Closed the Terminal Window?"
+  * If this is the first time you are running Flask and there is still something using port 5000 (e.g. macOS Monterey appears to use this port for AirPlay), you can tell Flask to use a different port instead. For example, instead of `env FLASK_APP=app.py flask run` you could run `env FLASK_APP=app.py flask run --port 5001`. Just make sure you replace `5000` with `5001` in any of the following examples.
+
+#### Opening the Flask Application in the Browser
 
 Like Jupyter Notebook, this server needs to stay running in the terminal for the application to work. If you want to do something else in the terminal, you will need to open a new window/tab, or shut down the server with control-C.
 
@@ -100,6 +109,8 @@ Unlike Jupyter notebook, this doesn't open in the browser automatically. You nee
 ![hello world page](https://curriculum-content.s3.amazonaws.com/data-science/images/flask_hello_world.png)
 
 Now, go ahead and shut down the Flask server by typing control-C in the terminal.
+
+(If you accidentally closed the terminal window, there are troubleshooting steps at the bottom of this page under "What If I Accidentally Closed the Terminal Window?")
 
 ## Flask Source Code
 
@@ -211,6 +222,79 @@ http://127.0.0.1:5000/goodbye
 ## Finishing Up
 
 Make sure you shut down the Flask server by typing control-C in the terminal window where it is running.
+
+## What If I Accidentally Closed the Terminal Window?
+
+It's ok! You will still be able to shut down the Flask server, it will just take more steps. First you need to identify the process ID of your Flask server, then run a command to terminate that process.
+
+### Identifying the Process Using the Port
+
+For these examples we will assume that you did not specify a port when you started the Flask server, so it is running on port 5000. If you used a different port (e.g. 5001 due to macOS Monterey) then make sure you replace the port numbers when following these instructions.
+
+#### Mac or Linux
+
+On Mac or Linux, you should be able to use the `lsof` command. `lsof` is short for "list open files". Run this in the terminal:
+
+```bash
+lsof -P -i :5000
+```
+
+This will produce an output like this:
+
+```
+COMMAND   PID     USER   FD  TYPE             DEVICE SIZE/OFF NODE NAME
+Python  30786 XXXXXXXX   3u  IPv4 0xXXXXXXXXXXXXXXXX      0t0  TCP localhost:5000 (LISTEN)
+Python  30786 XXXXXXXX   4u  IPv4 0xXXXXXXXXXXXXXXXX      0t0  TCP localhost:5000 (LISTEN)
+```
+
+The process ID is the value in the `PID` column of that output.
+
+#### Windows
+
+On Windows, you should be able to use the `netstat` command. `netstat` is short for "network statistics". Run this in the terminal:
+
+```bash
+netstat -ano | findstr 5000
+```
+
+This will produce an output like this:
+
+```
+Proto  Local Address Foreign Address     State   PID
+TCP   127.0.0.1:5000       0.0.0.0:0 LISTENING 30786
+```
+
+### Terminating the Process
+
+In both of the above examples, the process ID is 30786. Make sure you replace this with the actual process ID that you identified!
+
+#### Mac or Linux
+
+You can use the `kill` command to terminate the process in the command line on Mac or Linux.
+
+For example, 
+
+```bash
+kill -9 30786
+```
+
+You can also use the "Activity Monitor" application on Mac if you are more comfortable with a graphical user interface. Just find the process with the relevant ID, click on the process, and click the button with the X.
+
+#### Windows
+
+You can use the `taskkill` command to terminate the process in the command line on Windows.
+
+For example,
+
+```
+taskkill /F /PID 30786
+```
+
+You can also use the "Task Manager" application on Windows if you are more comfortable with a graphical user interface. If you don't immediately see the process you're looking for, try clicking "More details" to see the full list. Select the process you want to terminate and then click "End task".
+
+### Checking Port 5000 Again
+
+Now if you re-run the command checking port 5000 (either `lsof` or `netstat`), no processes should be displayed. You should now be able to execute the `flask run` command without getting an `OSError`.
 
 ## Summary
 
