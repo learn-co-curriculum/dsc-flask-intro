@@ -53,7 +53,7 @@ Let's make a new `conda` environment for developing our Flask app.
 Run this code in the terminal:
 
 ```bash
-conda create --name flask-env python=3.10.2 pip
+conda create --name flask-env python=3.8.12 pip
 conda activate flask-env
 pip install Flask==2.0.3
 ```
