@@ -184,9 +184,9 @@ Practice defining a few more routes in `app.py`.
 
 # Solution code:
 # For this to work it needs to be pasted into app.py
-@app.route('/welcome', methods=['GET'])
-def welcome():
-    return 'Welcome to an amazing Flask App!'
+# @app.route('/welcome', methods=['GET'])
+# def welcome():
+#     return 'Welcome to an amazing Flask App!'
 ```
 
 * Define a route `GET '/goodbye'` which shows the text `'Thanks for looking around. Come back again soon!'`
@@ -196,9 +196,9 @@ def welcome():
 
 # Solution code:
 # For this to work it needs to be pasted into app.py
-@app.route('/goodbye', methods=['GET'])
-def goodbye():
-    return 'Thanks for looking around. Come back again soon!'
+# @app.route('/goodbye', methods=['GET'])
+# def goodbye():
+#     return 'Thanks for looking around. Come back again soon!'
 ```
 
 Test these out by running the app again:
