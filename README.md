@@ -70,10 +70,15 @@ It should print out a path that includes `flask-env`. If it doesn't, try repeate
 
 Now, run the following commands in the terminal, from the root of this repository:
 
+Mac or UNIX:
 ```bash
 export FLASK_ENV=development
 env FLASK_APP=app.py flask run
 ```
+Windows:
+```bash
+set FLASK_APP=newproj
+set FLASK_ENV=development flask run
 
 This should produce an output that looks something like:
 
